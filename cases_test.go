@@ -286,3 +286,50 @@ func TestToLowerFirst(t *testing.T) {
 		})
 	}
 }
+
+func TestFromSnakeToPascalCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "Hello_world",
+			},
+			want: "HelloWorld",
+		},
+		{
+			args: args{
+				s: "Привет_мир_на_дворе_2024_год",
+			},
+			want: "ПриветМирНаДворе2024Год",
+		},
+		{
+			args: args{
+				s: "а,_что_если_будет_1_запятая_и_1точка",
+			},
+			want: "АЧтоЕслиБудет1ЗапятаяИ1точка",
+		},
+		{
+			args: args{
+				s: "5_рублей_и_10_копеек",
+			},
+			want: "5РублейИ10Копеек",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run("FromSnakeToPascalCase:"+tt.args.s, func(t *testing.T) {
+			t.Parallel()
+
+			got := FromSnakeToPascalCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}

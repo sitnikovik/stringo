@@ -84,3 +84,13 @@ func SplitToWords(s string) []string {
 		return !unicode.IsLetter(r) && !unicode.IsDigit(r)
 	})
 }
+
+// FromSnakeToPascalCase converts a snake_case string to PascalCase
+func FromSnakeToPascalCase(s string) string {
+	words := SplitToWords(s)
+	for i, word := range words {
+		words[i] = ToUpperFirst((word))
+	}
+
+	return strings.Join(words, "")
+}
