@@ -94,3 +94,17 @@ func FromSnakeToPascalCase(s string) string {
 
 	return strings.Join(words, "")
 }
+
+// FromSnakeToCamelCase converts a snake_case string to camelCase
+func FromSnakeToCamelCase(s string) string {
+	words := SplitToWords(s)
+	for i, word := range words {
+		w := strings.ToLower(word)
+		if i > 0 {
+			w = ToUpperFirst(w)
+		}
+		words[i] = w
+	}
+
+	return strings.Join(words, "")
+}

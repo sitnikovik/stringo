@@ -333,3 +333,50 @@ func TestFromSnakeToPascalCase(t *testing.T) {
 		})
 	}
 }
+
+func TestFromSnakeToCamelCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "Hello_world",
+			},
+			want: "helloWorld",
+		},
+		{
+			args: args{
+				s: "Привет_мир_на_дворе_2024_год",
+			},
+			want: "приветМирНаДворе2024Год",
+		},
+		{
+			args: args{
+				s: "а,_что_если_будет_1_запятая_и_1точка",
+			},
+			want: "аЧтоЕслиБудет1ЗапятаяИ1точка",
+		},
+		{
+			args: args{
+				s: "5_рублей_и_10_копеек",
+			},
+			want: "5РублейИ10Копеек",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run("FromSnakeToCamelCase:"+tt.args.s, func(t *testing.T) {
+			t.Parallel()
+
+			got := FromSnakeToCamelCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
