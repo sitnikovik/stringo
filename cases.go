@@ -108,3 +108,13 @@ func FromSnakeToCamelCase(s string) string {
 
 	return strings.Join(words, "")
 }
+
+// FromSnakeToKebabCase converts a snake_case string to kebab-case
+func FromSnakeToKebabCase(s string) string {
+	words := SplitToWords(s)
+	for i, word := range words {
+		words[i] = strings.ToLower(word)
+	}
+
+	return strings.Join(words, "-")
+}
