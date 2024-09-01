@@ -1,7 +1,6 @@
 package stringo
 
 import (
-	"net/url"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -1051,47 +1050,6 @@ func TestFromPascalToCamelCase(t *testing.T) {
 			t.Parallel()
 
 			got := FromPascalToCamelCase(tt.args.s)
-
-			require.Equal(t, tt.want, got)
-		})
-	}
-}
-
-func TestUrlValuesToSnakeCase(t *testing.T) {
-	t.Parallel()
-
-	type args struct {
-		vals url.Values
-	}
-	tests := []struct {
-		name string
-		args args
-		want url.Values
-	}{
-		{
-			name: "ok",
-			args: args{
-				vals: url.Values{
-					"userId":       []string{"userId"},
-					"age-category": []string{"age-category"},
-					"UserRole":     []string{"UserRole"},
-					"trace-id":     []string{"trace-id"},
-				},
-			},
-			want: url.Values{
-				"user_id":      []string{"userId"},
-				"age_category": []string{"age-category"},
-				"user_role":    []string{"UserRole"},
-				"trace_id":     []string{"trace-id"},
-			},
-		},
-	}
-	for _, tt := range tests {
-		tt := tt
-		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
-
-			got := UrlValuesToSnakeCase(tt.args.vals)
 
 			require.Equal(t, tt.want, got)
 		})

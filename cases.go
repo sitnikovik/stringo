@@ -1,7 +1,6 @@
 package stringo
 
 import (
-	"net/url"
 	"regexp"
 	"strings"
 	"unicode"
@@ -384,14 +383,4 @@ func FromPascalToCamelCase(s string) string {
 	}
 
 	return ToLowerFirst(s)
-}
-
-// UrlValuesToSnakeCase converts url values keys to snake_case and returns new url values
-func UrlValuesToSnakeCase(vals url.Values) url.Values {
-	newVals := url.Values{}
-	for k, v := range vals {
-		newVals[ToSnakeCase(k)] = v
-	}
-
-	return newVals
 }
