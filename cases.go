@@ -228,3 +228,49 @@ func FromCamelToPascalCase(s string) string {
 
 	return ToUpperFirst(s)
 }
+
+// FromPascalToSnakeCase converts a PascalCase string to snake_case.
+// Keep in mind that it skips spaces cause of these does not match PascalCase.
+func FromPascalToSnakeCase(s string) string {
+	if s == "" {
+		return ""
+	}
+
+	sb := strings.Builder{}
+	for i, r := range s {
+		if unicode.IsUpper(r) && i > 0 {
+			sb.WriteString("_")
+		}
+		sb.WriteString(string(unicode.ToLower(r)))
+	}
+
+	return sb.String()
+}
+
+// FromPascalToKebabCase converts a PascalCase string to kebab-case.
+// Keep in mind that it skips spaces cause of these does not match PascalCase.
+func FromPascalToKebabCase(s string) string {
+	if s == "" {
+		return ""
+	}
+
+	sb := strings.Builder{}
+	for i, r := range s {
+		if unicode.IsUpper(r) && i > 0 {
+			sb.WriteString("-")
+		}
+		sb.WriteString(string(unicode.ToLower(r)))
+	}
+
+	return sb.String()
+}
+
+// FromPascalToCamelCase converts a PascalCase string to camelCase.
+// Keep in mind that it skips spaces cause of these does not match PascalCase.
+func FromPascalToCamelCase(s string) string {
+	if s == "" {
+		return ""
+	}
+
+	return ToLowerFirst(s)
+}
