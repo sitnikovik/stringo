@@ -47,6 +47,30 @@ func TestToPascalCase(t *testing.T) {
 			},
 			want: "Аполон13ВКосмосе",
 		},
+		{
+			args: args{
+				s: "camelCase",
+			},
+			want: "CamelCase",
+		},
+		{
+			args: args{
+				s: "snake_case",
+			},
+			want: "SnakeCase",
+		},
+		{
+			args: args{
+				s: "kebab-case",
+			},
+			want: "KebabCase",
+		},
+		{
+			args: args{
+				s: "PascalCase",
+			},
+			want: "PascalCase",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt
@@ -59,6 +83,7 @@ func TestToPascalCase(t *testing.T) {
 		})
 	}
 }
+
 func TestToCamelCase(t *testing.T) {
 	t.Parallel()
 
@@ -92,6 +117,30 @@ func TestToCamelCase(t *testing.T) {
 				s: "Аполон13 в космосе",
 			},
 			want: "аполон13ВКосмосе",
+		},
+		{
+			args: args{
+				s: "camelCase",
+			},
+			want: "camelCase",
+		},
+		{
+			args: args{
+				s: "snake_case",
+			},
+			want: "snakeCase",
+		},
+		{
+			args: args{
+				s: "kebab-case",
+			},
+			want: "kebabCase",
+		},
+		{
+			args: args{
+				s: "PascalCase",
+			},
+			want: "pascalCase",
 		},
 	}
 	for _, tt := range tests {
@@ -148,9 +197,27 @@ func TestToSnakeCase(t *testing.T) {
 		},
 		{
 			args: args{
-				s: "userId",
+				s: "camelCase",
 			},
-			want: "user_id",
+			want: "camel_case",
+		},
+		{
+			args: args{
+				s: "snake_case",
+			},
+			want: "snake_case",
+		},
+		{
+			args: args{
+				s: "kebab-case",
+			},
+			want: "kebab_case",
+		},
+		{
+			args: args{
+				s: "PascalCase",
+			},
+			want: "pascal_case",
 		},
 	}
 	for _, tt := range tests {
@@ -198,6 +265,30 @@ func TestToKebabCase(t *testing.T) {
 				s: "Аполон-13 в космосе",
 			},
 			want: "аполон-13-в-космосе",
+		},
+		{
+			args: args{
+				s: "camelCase",
+			},
+			want: "camel-case",
+		},
+		{
+			args: args{
+				s: "snake_case",
+			},
+			want: "snake-case",
+		},
+		{
+			args: args{
+				s: "kebab-case",
+			},
+			want: "kebab-case",
+		},
+		{
+			args: args{
+				s: "PascalCase",
+			},
+			want: "pascal-case",
 		},
 	}
 	for _, tt := range tests {
@@ -978,6 +1069,7 @@ func TestUrlValuesToSnakeCase(t *testing.T) {
 		want url.Values
 	}{
 		{
+			name: "ok",
 			args: args{
 				vals: url.Values{
 					"userId":       []string{"userId"},

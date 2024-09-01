@@ -31,6 +31,19 @@ var (
 
 // ToPascalCase converts a string to PascalCase.
 func ToPascalCase(s string) string {
+	if c := DefineStringCase(s); c != NormalCase {
+		switch c {
+		case PascalCase:
+			return s
+		case CamelCase:
+			return FromCamelToPascalCase(s)
+		case KebabCase:
+			return FromKebabToPascalCase(s)
+		case SnakeCase:
+			return FromSnakeToPascalCase(s)
+		}
+	}
+
 	words := SplitToWords(s)
 	for i, word := range words {
 		words[i] = ToUpperFirst(word)
@@ -46,10 +59,20 @@ func MatchPascalCase(s string) bool {
 
 // ToCamelCase converts a string to camelCase
 func ToCamelCase(s string) string {
-	words := strings.FieldsFunc(s, func(r rune) bool {
-		return !unicode.IsLetter(r) && !unicode.IsDigit(r)
-	})
+	if c := DefineStringCase(s); c != NormalCase {
+		switch c {
+		case CamelCase:
+			return s
+		case PascalCase:
+			return FromPascalToCamelCase(s)
+		case KebabCase:
+			return FromKebabToCamelCase(s)
+		case SnakeCase:
+			return FromSnakeToCamelCase(s)
+		}
+	}
 
+	words := SplitToWords(s)
 	for i, word := range words {
 		w := strings.ToLower(word)
 		if i > 0 {
@@ -68,6 +91,19 @@ func MatchCamelCase(s string) bool {
 
 // ToSnakeCase converts a string to snake_case
 func ToSnakeCase(s string) string {
+	if c := DefineStringCase(s); c != NormalCase {
+		switch c {
+		case SnakeCase:
+			return s
+		case CamelCase:
+			return FromCamelToSnakeCase(s)
+		case KebabCase:
+			return FromKebabToSnakeCase(s)
+		case PascalCase:
+			return FromPascalToSnakeCase(s)
+		}
+	}
+
 	words := SplitToWords(s)
 	for i, word := range words {
 		words[i] = strings.ToLower(word)
@@ -83,6 +119,19 @@ func MatchSnakeCase(s string) bool {
 
 // ToKebabCase converts a string to kebab-case
 func ToKebabCase(s string) string {
+	if c := DefineStringCase(s); c != NormalCase {
+		switch c {
+		case KebabCase:
+			return s
+		case PascalCase:
+			return FromPascalToKebabCase(s)
+		case CamelCase:
+			return FromCamelToKebabCase(s)
+		case SnakeCase:
+			return FromSnakeToKebabCase(s)
+		}
+	}
+
 	words := SplitToWords(s)
 	for i, word := range words {
 		words[i] = strings.ToLower(word)
