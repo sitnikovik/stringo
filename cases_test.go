@@ -1218,3 +1218,71 @@ func TestMatchKebabCase(t *testing.T) {
 		})
 	}
 }
+
+func TestDefineStringCase(t *testing.T) {
+	t.Parallel()
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want StringCase
+	}{
+		{
+			name: "define KebabCase",
+			args: args{
+				s: "kebab-case",
+			},
+			want: KebabCase,
+		},
+		{
+			name: "define SnakeCase",
+			args: args{
+				s: "snake_case",
+			},
+			want: SnakeCase,
+		},
+		{
+
+			name: "define CamelCase",
+			args: args{
+				s: "camelCase",
+			},
+			want: CamelCase,
+		},
+		{
+
+			name: "define PascalCase",
+			args: args{
+				s: "PascalCase",
+			},
+			want: PascalCase,
+		},
+		{
+
+			name: "define NormalCase on a sentence",
+			args: args{
+				s: "Who wants to be a millionaire",
+			},
+			want: NormalCase,
+		},
+		{
+			name: "define NormalCase on mixes",
+			args: args{
+				s: "some-string_withUnderScore and Spaces",
+			},
+			want: NormalCase,
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got := DefineStringCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}

@@ -7,6 +7,21 @@ import (
 	"unicode"
 )
 
+const (
+	// NormalCase describes that string built in normal case
+	NormalCase StringCase = iota + 1
+	// SnakeCase describes that string built in snake_case
+	SnakeCase
+	// CamelCase describes that string built in camelCase
+	CamelCase
+	// PascalCase describes that string built in PascalCase
+	PascalCase
+	// KebabCase describes that string built in kebab-case
+	KebabCase
+)
+
+type StringCase int8
+
 var (
 	pascalCaseRE = regexp.MustCompile("^[A-Z][a-z]+(?:[A-Z][a-z]+)*$")
 	camelCaseRE  = regexp.MustCompile("^[a-z]+(?:[A-Z][a-z]+)*$")
@@ -79,6 +94,24 @@ func ToKebabCase(s string) string {
 // MatchKebabCase defines if the string matches the kebab-case
 func MatchKebabCase(s string) bool {
 	return kebabCaseRE.MatchString(s)
+}
+
+// DefineStringCase returns case type for the string
+func DefineStringCase(s string) StringCase {
+	if MatchKebabCase(s) {
+		return KebabCase
+	}
+	if MatchSnakeCase(s) {
+		return SnakeCase
+	}
+	if MatchPascalCase(s) {
+		return PascalCase
+	}
+	if MatchCamelCase(s) {
+		return CamelCase
+	}
+
+	return NormalCase
 }
 
 // ToUpperFirst converts the first character of a string to uppercase
