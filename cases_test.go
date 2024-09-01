@@ -504,3 +504,121 @@ func TestFromCamelToSnakeCase(t *testing.T) {
 		})
 	}
 }
+
+func TestFromCamelToKebabCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "helloWorld",
+			},
+			want: "hello-world",
+		},
+		{
+			args: args{
+				s: "ПриветМир",
+			},
+			want: "привет-мир",
+		},
+		{
+			args: args{
+				s: "helloWorld123",
+			},
+			want: "hello-world123",
+		},
+		{
+			args: args{
+				s: "ПриветМир123",
+			},
+			want: "привет-мир123",
+		},
+		{
+			args: args{
+				s: "Аполон13ВКосмосе",
+			},
+			want: "аполон13-в-космосе",
+		},
+		{
+			args: args{
+				s: "string with spaces is not convertable",
+			},
+			want: "string with spaces is not convertable",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run("FromCamelToKebabCase:"+tt.args.s, func(t *testing.T) {
+			t.Parallel()
+
+			got := FromCamelToKebabCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func TestFromCamelToPascalCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "helloWorld",
+			},
+			want: "HelloWorld",
+		},
+		{
+			args: args{
+				s: "приветМир",
+			},
+			want: "ПриветМир",
+		},
+		{
+			args: args{
+				s: "helloWorld123",
+			},
+			want: "HelloWorld123",
+		},
+		{
+			args: args{
+				s: "приветМир123",
+			},
+			want: "ПриветМир123",
+		},
+		{
+			args: args{
+				s: "snake_case_changed_with_first_to_upper",
+			},
+			want: "Snake_case_changed_with_first_to_upper",
+		},
+		{
+			args: args{
+				s: "string with spaces is not convertable",
+			},
+			want: "String with spaces is not convertable",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run("FromCamelToPascalCase:"+tt.args.s, func(t *testing.T) {
+			t.Parallel()
+
+			got := FromCamelToPascalCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
