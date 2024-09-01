@@ -134,6 +134,55 @@ func FromSnakeToKebabCase(s string) string {
 	return strings.Join(words, "-")
 }
 
+// FromKebabToPascalCase converts a kebab-case string to PascalCase.
+// Keep in mind that it skips spaces cause of these does not match kebab-case.
+func FromKebabToPascalCase(s string) string {
+	if s == "" {
+		return ""
+	}
+
+	words := strings.Split(s, "-")
+	for i, word := range words {
+		words[i] = ToUpperFirst((word))
+	}
+
+	return strings.Join(words, "")
+}
+
+// FromKebabToCamelCase converts a kebab-case string to camelCase.
+// Keep in mind that it skips spaces cause of these does not match kebab-case.
+func FromKebabToCamelCase(s string) string {
+	if s == "" {
+		return ""
+	}
+
+	words := strings.Split(s, "-")
+	for i, word := range words {
+		w := strings.ToLower(word)
+		if i > 0 {
+			w = ToUpperFirst(w)
+		}
+		words[i] = w
+	}
+
+	return strings.Join(words, "")
+}
+
+// FromKebabToSnakeCase converts a kebab-case string to snake_case.
+// Keep in mind that it skips spaces cause of these does not match kebab-case.
+func FromKebabToSnakeCase(s string) string {
+	if s == "" {
+		return ""
+	}
+
+	words := strings.Split(s, "-")
+	for i, word := range words {
+		words[i] = strings.ToLower(word)
+	}
+
+	return strings.Join(words, "_")
+}
+
 // FromCamelToSnakeCase converts a camelCase string to snake_case.
 // Keep in mind that it skips spaces cause of these does not match camelCase.
 func FromCamelToSnakeCase(s string) string {
