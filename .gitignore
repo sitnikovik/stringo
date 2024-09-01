@@ -1,0 +1,12 @@
+# Ignore JetBrains IDE files
+.idea/
+*.iml
+
+# Ignore Visual Studio Code files
+.vscode/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore obsidian cache
+.obsidian/
