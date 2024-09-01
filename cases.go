@@ -1,8 +1,17 @@
 package stringo
 
 import (
+	"net/url"
+	"regexp"
 	"strings"
 	"unicode"
+)
+
+var (
+	pascalCaseRE = regexp.MustCompile("^[A-Z][a-z]+(?:[A-Z][a-z]+)*$")
+	camelCaseRE  = regexp.MustCompile("^[a-z]+(?:[A-Z][a-z]+)*$")
+	snakeCaseRE  = regexp.MustCompile("^[a-z]+(_[a-z]+)*$")
+	kebabCaseRE  = regexp.MustCompile("^[a-z]+(-[a-z]+)*$")
 )
 
 // ToPascalCase converts a string to PascalCase.
@@ -13,6 +22,11 @@ func ToPascalCase(s string) string {
 	}
 
 	return strings.Join(words, "")
+}
+
+// MatchPascalCase defines if the string matches the PascalCase
+func MatchPascalCase(s string) bool {
+	return pascalCaseRE.MatchString(s)
 }
 
 // ToCamelCase converts a string to camelCase
@@ -32,6 +46,11 @@ func ToCamelCase(s string) string {
 	return strings.Join(words, "")
 }
 
+// MatchCamelCase defines if the string matches the camelCase
+func MatchCamelCase(s string) bool {
+	return camelCaseRE.MatchString(s)
+}
+
 // ToSnakeCase converts a string to snake_case
 func ToSnakeCase(s string) string {
 	words := SplitToWords(s)
@@ -42,6 +61,11 @@ func ToSnakeCase(s string) string {
 	return strings.Join(words, "_")
 }
 
+// MatchSnakeCase defines if the string matches the snake_case
+func MatchSnakeCase(s string) bool {
+	return snakeCaseRE.MatchString(s)
+}
+
 // ToKebabCase converts a string to kebab-case
 func ToKebabCase(s string) string {
 	words := SplitToWords(s)
@@ -50,6 +74,11 @@ func ToKebabCase(s string) string {
 	}
 
 	return strings.Join(words, "-")
+}
+
+// MatchKebabCase defines if the string matches the kebab-case
+func MatchKebabCase(s string) bool {
+	return kebabCaseRE.MatchString(s)
 }
 
 // ToUpperFirst converts the first character of a string to uppercase
@@ -273,4 +302,14 @@ func FromPascalToCamelCase(s string) string {
 	}
 
 	return ToLowerFirst(s)
+}
+
+// UrlValuesToSnakeCase converts url values keys to snake_case and returns new url values
+func UrlValuesToSnakeCase(vals url.Values) url.Values {
+	newVals := url.Values{}
+	for k, v := range vals {
+		newVals[ToSnakeCase(k)] = v
+	}
+
+	return newVals
 }
