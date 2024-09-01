@@ -5,7 +5,7 @@ import (
 	"unicode"
 )
 
-// ToPascalCase converts a string to PascalCase
+// ToPascalCase converts a string to PascalCase.
 func ToPascalCase(s string) string {
 	words := SplitToWords(s)
 	for i, word := range words {
@@ -85,9 +85,10 @@ func SplitToWords(s string) []string {
 	})
 }
 
-// FromSnakeToPascalCase converts a snake_case string to PascalCase
+// FromSnakeToPascalCase converts a snake_case string to PascalCase.
+// Keep in mind that it omits spaces cause of these does not match snake_kase.
 func FromSnakeToPascalCase(s string) string {
-	words := SplitToWords(s)
+	words := strings.Split(s, "_")
 	for i, word := range words {
 		words[i] = ToUpperFirst((word))
 	}
@@ -95,9 +96,10 @@ func FromSnakeToPascalCase(s string) string {
 	return strings.Join(words, "")
 }
 
-// FromSnakeToCamelCase converts a snake_case string to camelCase
+// FromSnakeToCamelCase converts a snake_case string to camelCase.
+// Keep in mind that it omits spaces cause of these does not match snake_case.
 func FromSnakeToCamelCase(s string) string {
-	words := SplitToWords(s)
+	words := strings.Split(s, "_")
 	for i, word := range words {
 		w := strings.ToLower(word)
 		if i > 0 {
@@ -109,12 +111,27 @@ func FromSnakeToCamelCase(s string) string {
 	return strings.Join(words, "")
 }
 
-// FromSnakeToKebabCase converts a snake_case string to kebab-case
+// FromSnakeToKebabCase converts a snake_case string to kebab-case.
+// Keep in mind that it omits spaces cause of these does not match snake_case.
 func FromSnakeToKebabCase(s string) string {
-	words := SplitToWords(s)
+	words := strings.Split(s, "_")
 	for i, word := range words {
 		words[i] = strings.ToLower(word)
 	}
 
 	return strings.Join(words, "-")
+}
+
+// FromCamelToSnakeCase converts a camelCase string to snake_case.
+// Keep in mind that it omits spaces cause of these does not match camelCase.
+func FromCamelToSnakeCase(s string) string {
+	sb := strings.Builder{}
+	for i, r := range s {
+		if unicode.IsUpper(r) && i > 0 {
+			sb.WriteString("_")
+		}
+		sb.WriteString(string(unicode.ToLower(r)))
+	}
+
+	return sb.String()
 }

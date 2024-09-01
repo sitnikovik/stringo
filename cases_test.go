@@ -311,7 +311,7 @@ func TestFromSnakeToPascalCase(t *testing.T) {
 		},
 		{
 			args: args{
-				s: "а,_что_если_будет_1_запятая_и_1точка",
+				s: "а_что_если_будет_1_запятая_и_1точка",
 			},
 			want: "АЧтоЕслиБудет1ЗапятаяИ1точка",
 		},
@@ -320,6 +320,12 @@ func TestFromSnakeToPascalCase(t *testing.T) {
 				s: "5_рублей_и_10_копеек",
 			},
 			want: "5РублейИ10Копеек",
+		},
+		{
+			args: args{
+				s: "string with spaces is not convertable",
+			},
+			want: "String with spaces is not convertable",
 		},
 	}
 	for _, tt := range tests {
@@ -360,13 +366,19 @@ func TestFromSnakeToCamelCase(t *testing.T) {
 			args: args{
 				s: "а,_что_если_будет_1_запятая_и_1точка",
 			},
-			want: "аЧтоЕслиБудет1ЗапятаяИ1точка",
+			want: "а,ЧтоЕслиБудет1ЗапятаяИ1точка",
 		},
 		{
 			args: args{
 				s: "5_рублей_и_10_копеек",
 			},
 			want: "5РублейИ10Копеек",
+		},
+		{
+			args: args{
+				s: "string with spaces is not convertable",
+			},
+			want: "string with spaces is not convertable",
 		},
 	}
 	for _, tt := range tests {
@@ -407,13 +419,19 @@ func TestFromSnakeToKebabCase(t *testing.T) {
 			args: args{
 				s: "а,_что_если_будет_1_запятая_и_1точка",
 			},
-			want: "а-что-если-будет-1-запятая-и-1точка",
+			want: "а,-что-если-будет-1-запятая-и-1точка",
 		},
 		{
 			args: args{
 				s: "5_рублей_и_10_копеек",
 			},
 			want: "5-рублей-и-10-копеек",
+		},
+		{
+			args: args{
+				s: "string with spaces is not convertable",
+			},
+			want: "string with spaces is not convertable",
 		},
 	}
 	for _, tt := range tests {
@@ -422,6 +440,65 @@ func TestFromSnakeToKebabCase(t *testing.T) {
 			t.Parallel()
 
 			got := FromSnakeToKebabCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func TestFromCamelToSnakeCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "helloWorld",
+			},
+			want: "hello_world",
+		},
+		{
+			args: args{
+				s: "ПриветМир",
+			},
+			want: "привет_мир",
+		},
+		{
+			args: args{
+				s: "helloWorld123",
+			},
+			want: "hello_world123",
+		},
+		{
+			args: args{
+				s: "ПриветМир123",
+			},
+			want: "привет_мир123",
+		},
+		{
+			args: args{
+				s: "Аполон13ВКосмосе",
+			},
+			want: "аполон13_в_космосе",
+		},
+		{
+			args: args{
+				s: "string with spaces is not convertable",
+			},
+			want: "string with spaces is not convertable",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run("FromCamelToSnakeCase:"+tt.args.s, func(t *testing.T) {
+			t.Parallel()
+
+			got := FromCamelToSnakeCase(tt.args.s)
 
 			require.Equal(t, tt.want, got)
 		})
