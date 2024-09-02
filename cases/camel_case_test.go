@@ -54,6 +54,12 @@ func TestToCamelCase(t *testing.T) {
 		},
 		{
 			args: args{
+				s: "SCREAMING_SNAKE_CASE",
+			},
+			want: "screamingSnakeCase",
+		},
+		{
+			args: args{
 				s: "kebab-case",
 			},
 			want: "kebabCase",
@@ -248,6 +254,65 @@ func TestFromCamelToPascalCase(t *testing.T) {
 			t.Parallel()
 
 			got := FromCamelToPascalCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func TestFromCamelToScreamingSnakeCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "helloWorld",
+			},
+			want: "HELLO_WORLD",
+		},
+		{
+			args: args{
+				s: "ПриветМир",
+			},
+			want: "ПРИВЕТ_МИР",
+		},
+		{
+			args: args{
+				s: "helloWorld123",
+			},
+			want: "HELLO_WORLD123",
+		},
+		{
+			args: args{
+				s: "ПриветМир123",
+			},
+			want: "ПРИВЕТ_МИР123",
+		},
+		{
+			args: args{
+				s: "Аполлон13ВКосмосе",
+			},
+			want: "АПОЛЛОН13_В_КОСМОСЕ",
+		},
+		{
+			args: args{
+				s: "string with spaces will be upped",
+			},
+			want: "STRING WITH SPACES WILL BE UPPED",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run("FromCamelToScreamingSnakeCase:"+tt.args.s, func(t *testing.T) {
+			t.Parallel()
+
+			got := FromCamelToScreamingSnakeCase(tt.args.s)
 
 			require.Equal(t, tt.want, got)
 		})

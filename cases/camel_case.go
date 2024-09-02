@@ -20,6 +20,8 @@ func ToCamelCase(s string) string {
 			return FromKebabToCamelCase(s)
 		case SnakeCase:
 			return FromSnakeToCamelCase(s)
+		case ScreamingSnakeCase:
+			return FromScreamingSnakeToCamelCase(s)
 		}
 	}
 
