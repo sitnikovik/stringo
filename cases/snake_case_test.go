@@ -241,3 +241,56 @@ func TestFromSnakeToKebabCase(t *testing.T) {
 		})
 	}
 }
+
+func TestFromSnakeToScreamingSnakeCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "Hello_world",
+			},
+			want: "HELLO_WORLD",
+		},
+		{
+			args: args{
+				s: "Привет_мир_на_дворе_2024_год",
+			},
+			want: "ПРИВЕТ_МИР_НА_ДВОРЕ_2024_ГОД",
+		},
+		{
+			args: args{
+				s: "а,_что_если_будет_1_запятая_и_1точка",
+			},
+			want: "А,_ЧТО_ЕСЛИ_БУДЕТ_1_ЗАПЯТАЯ_И_1ТОЧКА",
+		},
+		{
+			args: args{
+				s: "5_рублей_и_10_копеек",
+			},
+			want: "5_РУБЛЕЙ_И_10_КОПЕЕК",
+		},
+		{
+			args: args{
+				s: "string with spaces to be up",
+			},
+			want: "STRING WITH SPACES TO BE UP",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run("FromSnakeToScreamingSnakeCase:"+tt.args.s, func(t *testing.T) {
+			t.Parallel()
+
+			got := FromSnakeToScreamingSnakeCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
