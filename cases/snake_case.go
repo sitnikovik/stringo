@@ -19,6 +19,8 @@ func ToSnakeCase(s string) string {
 			return FromKebabToSnakeCase(s)
 		case PascalCase:
 			return FromPascalToSnakeCase(s)
+		case ScreamingSnakeCase:
+			return FromScreamingSnakeToSnakeCase(s)
 		}
 	}
 
