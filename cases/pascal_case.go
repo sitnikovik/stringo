@@ -20,15 +20,14 @@ func ToPascalCase(s string) string {
 			return FromKebabToPascalCase(s)
 		case SnakeCase:
 			return FromSnakeToPascalCase(s)
+		case ScreamingSnakeCase:
+			return FromScreamingSnakeToPascalCase(s)
 		}
 	}
 
-	words := SplitToWords(s)
-	for i, word := range words {
-		words[i] = strings.ToUpper(word)
-	}
-
-	return strings.Join(words, "_")
+	return mapWordsAndJoin(s, "", func(s string, _ int) string {
+		return ToUpperFirst(strings.ToLower(s))
+	})
 }
 
 // FromPascalToSnakeCase converts a PascalCase string to snake_case.
