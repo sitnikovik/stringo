@@ -1,4 +1,4 @@
-package stringo
+package cases
 
 import (
 	"regexp"
@@ -147,34 +147,6 @@ func MatchKebabCase(s string) bool {
 	return kebabCaseRE.MatchString(s)
 }
 
-// ToScreamingSnakeCase converts a string to SCREAMING_SNAKE_CASE
-func ToScreamingSnakeCase(s string) string {
-	if c := DefineStringCase(s); c != NormalCase {
-		switch c {
-		case ScreamingSnakeCase:
-			return s
-		case PascalCase:
-			return FromPascalToSnakeCase(s)
-		case CamelCase:
-			return FromCamelToSnakeCase(s)
-		case KebabCase:
-			return FromKebabToSnakeCase(s)
-		}
-	}
-
-	words := SplitToWords(s)
-	for i, word := range words {
-		words[i] = strings.ToUpper(word)
-	}
-
-	return strings.Join(words, "_")
-}
-
-// MatchScreamingSnakeCase defines if the string matches the SCREAMING_SNAKE_CASE
-func MatchScreamingSnakeCase(s string) bool {
-	return screamingSnakeCaseRE.MatchString(s)
-}
-
 // DefineStringCase returns case type for the string
 func DefineStringCase(s string) StringCase {
 	if MatchKebabCase(s) {
@@ -232,135 +204,87 @@ func SplitToWords(s string) []string {
 // FromSnakeToPascalCase converts a snake_case string to PascalCase.
 // Keep in mind that it skips spaces cause of these does not match snake_kase.
 func FromSnakeToPascalCase(s string) string {
-	if s == "" {
-		return ""
-	}
-
-	words := strings.Split(s, "_")
-	for i, word := range words {
-		words[i] = ToUpperFirst((word))
-	}
-
-	return strings.Join(words, "")
+	return fromSeparatedToSeparated(s, "_", "", func(s string, idx int) string {
+		return ToUpperFirst(strings.ToLower(s))
+	})
 }
 
 // FromSnakeToCamelCase converts a snake_case string to camelCase.
 // Keep in mind that it skips spaces cause of these does not match snake_case.
 func FromSnakeToCamelCase(s string) string {
-	if s == "" {
-		return ""
-	}
-
-	words := strings.Split(s, "_")
-	for i, word := range words {
-		w := strings.ToLower(word)
-		if i > 0 {
+	return fromSeparatedToSeparated(s, "_", "", func(s string, idx int) string {
+		w := strings.ToLower(s)
+		if idx > 0 {
 			w = ToUpperFirst(w)
 		}
-		words[i] = w
-	}
-
-	return strings.Join(words, "")
+		return w
+	})
 }
 
 // FromSnakeToKebabCase converts a snake_case string to kebab-case.
 // Keep in mind that it skips spaces cause of these does not match snake_case.
 func FromSnakeToKebabCase(s string) string {
-	if s == "" {
-		return ""
-	}
-
-	words := strings.Split(s, "_")
-	for i, word := range words {
-		words[i] = strings.ToLower(word)
-	}
-
-	return strings.Join(words, "-")
+	return fromSeparatedToSeparated(s, "_", "-", func(s string, _ int) string {
+		return strings.ToLower(s)
+	})
 }
 
 // FromKebabToPascalCase converts a kebab-case string to PascalCase.
 // Keep in mind that it skips spaces cause of these does not match kebab-case.
 func FromKebabToPascalCase(s string) string {
-	if s == "" {
-		return ""
-	}
-
-	words := strings.Split(s, "-")
-	for i, word := range words {
-		words[i] = ToUpperFirst((word))
-	}
-
-	return strings.Join(words, "")
+	return fromSeparatedToSeparated(s, "-", "", func(s string, idx int) string {
+		return ToUpperFirst(strings.ToLower(s))
+	})
 }
 
 // FromKebabToCamelCase converts a kebab-case string to camelCase.
 // Keep in mind that it skips spaces cause of these does not match kebab-case.
 func FromKebabToCamelCase(s string) string {
-	if s == "" {
-		return ""
-	}
-
-	words := strings.Split(s, "-")
-	for i, word := range words {
-		w := strings.ToLower(word)
-		if i > 0 {
+	return fromSeparatedToSeparated(s, "-", "", func(s string, idx int) string {
+		w := strings.ToLower(s)
+		if idx > 0 {
 			w = ToUpperFirst(w)
 		}
-		words[i] = w
-	}
-
-	return strings.Join(words, "")
+		return w
+	})
 }
 
 // FromKebabToSnakeCase converts a kebab-case string to snake_case.
 // Keep in mind that it skips spaces cause of these does not match kebab-case.
 func FromKebabToSnakeCase(s string) string {
-	if s == "" {
-		return ""
-	}
-
-	words := strings.Split(s, "-")
-	for i, word := range words {
-		words[i] = strings.ToLower(word)
-	}
-
-	return strings.Join(words, "_")
+	return fromSeparatedToSeparated(s, "-", "_", func(s string, _ int) string {
+		return strings.ToLower(s)
+	})
 }
 
 // FromCamelToSnakeCase converts a camelCase string to snake_case.
 // Keep in mind that it skips spaces cause of these does not match camelCase.
 func FromCamelToSnakeCase(s string) string {
-	if s == "" {
-		return ""
-	}
-
-	sb := strings.Builder{}
-	for i, r := range s {
-		if unicode.IsUpper(r) && i > 0 {
-			sb.WriteString("_")
-		}
-		sb.WriteString(string(unicode.ToLower(r)))
-	}
-
-	return sb.String()
+	return fromTo(
+		s,
+		"_",
+		func(r rune, idx int) bool {
+			return unicode.IsUpper(r) && idx > 0
+		},
+		func(r rune) rune {
+			return unicode.ToLower(r)
+		},
+	)
 }
 
 // FromCamelToSnakeCase converts a camelCase string to kebab-case.
 // Keep in mind that it skips spaces cause of these does not match camelCase.
 func FromCamelToKebabCase(s string) string {
-	if s == "" {
-		return ""
-	}
-
-	sb := strings.Builder{}
-	for i, r := range s {
-		if unicode.IsUpper(r) && i > 0 {
-			sb.WriteString("-")
-		}
-		sb.WriteString(string(unicode.ToLower(r)))
-	}
-
-	return sb.String()
+	return fromTo(
+		s,
+		"-",
+		func(r rune, idx int) bool {
+			return unicode.IsUpper(r) && idx > 0
+		},
+		func(r rune) rune {
+			return unicode.ToLower(r)
+		},
+	)
 }
 
 // FromCamelToPascalCase converts a camelCase string to PascalCase.
@@ -376,37 +300,31 @@ func FromCamelToPascalCase(s string) string {
 // FromPascalToSnakeCase converts a PascalCase string to snake_case.
 // Keep in mind that it skips spaces cause of these does not match PascalCase.
 func FromPascalToSnakeCase(s string) string {
-	if s == "" {
-		return ""
-	}
-
-	sb := strings.Builder{}
-	for i, r := range s {
-		if unicode.IsUpper(r) && i > 0 {
-			sb.WriteString("_")
-		}
-		sb.WriteString(string(unicode.ToLower(r)))
-	}
-
-	return sb.String()
+	return fromTo(
+		s,
+		"_",
+		func(r rune, idx int) bool {
+			return unicode.IsUpper(r) && idx > 0
+		},
+		func(r rune) rune {
+			return unicode.ToLower(r)
+		},
+	)
 }
 
 // FromPascalToKebabCase converts a PascalCase string to kebab-case.
 // Keep in mind that it skips spaces cause of these does not match PascalCase.
 func FromPascalToKebabCase(s string) string {
-	if s == "" {
-		return ""
-	}
-
-	sb := strings.Builder{}
-	for i, r := range s {
-		if unicode.IsUpper(r) && i > 0 {
-			sb.WriteString("-")
-		}
-		sb.WriteString(string(unicode.ToLower(r)))
-	}
-
-	return sb.String()
+	return fromTo(
+		s,
+		"-",
+		func(r rune, idx int) bool {
+			return unicode.IsUpper(r) && idx > 0
+		},
+		func(r rune) rune {
+			return unicode.ToLower(r)
+		},
+	)
 }
 
 // FromPascalToCamelCase converts a PascalCase string to camelCase.
