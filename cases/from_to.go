@@ -4,10 +4,9 @@ import (
 	"strings"
 )
 
-func fromSeparatedToSeparated(
-	s, fromSep, toSep string,
-	f func(s string, idx int) string,
-) string {
+// rejoin splits provided string with fromSep, maps each splitted
+// part of the string with callback and join resulted with toSep
+func rejoin(s, fromSep, toSep string, f func(s string, idx int) string) string {
 	if s == "" {
 		return ""
 	}
@@ -20,11 +19,9 @@ func fromSeparatedToSeparated(
 	return strings.Join(words, toSep)
 }
 
-func fromTo(
-	s, sep string,
-	sepcond func(r rune, idx int) bool,
-	f func(r rune) rune,
-) string {
+// split maps provided string with separator on its condition function returns true
+// and do the callback for each rune of string
+func split(s, sep string, sepcond func(r rune, idx int) bool, f func(r rune) rune) string {
 	if s == "" {
 		return ""
 	}
