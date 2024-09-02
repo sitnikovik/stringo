@@ -118,3 +118,14 @@ func split(s, sep string, sepcond func(r rune, idx int) bool, f func(r rune) run
 
 	return sb.String()
 }
+
+// mapWordsAndJoin splits string to words, do the callback for each word
+// and join results into new string with separator
+func mapWordsAndJoin(s, sep string, f func(s string, idx int) string) string {
+	words := SplitToWords(s)
+	for i, word := range words {
+		words[i] = f(word, i)
+	}
+
+	return strings.Join(words, sep)
+}
