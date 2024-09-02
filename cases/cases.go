@@ -27,29 +27,6 @@ var (
 	screamingSnakeCaseRE = regexp.MustCompile("^[A-Z]+(_[A-Z]+)*$")
 )
 
-// ToPascalCase converts a string to PascalCase.
-func ToPascalCase(s string) string {
-	if c := DefineStringCase(s); c != NormalCase {
-		switch c {
-		case PascalCase:
-			return s
-		case CamelCase:
-			return FromCamelToPascalCase(s)
-		case KebabCase:
-			return FromKebabToPascalCase(s)
-		case SnakeCase:
-			return FromSnakeToPascalCase(s)
-		}
-	}
-
-	words := SplitToWords(s)
-	for i, word := range words {
-		words[i] = ToUpperFirst(word)
-	}
-
-	return strings.Join(words, "")
-}
-
 // MatchPascalCase defines if the string matches the PascalCase
 func MatchPascalCase(s string) bool {
 	return pascalCaseRE.MatchString(s)
