@@ -62,3 +62,11 @@ func FromSnakeToKebabCase(s string) string {
 		return strings.ToLower(s)
 	})
 }
+
+// FromSnakeToScreamingSnakeCase converts a snake_case string to SCREAMING_SNAKE_CASE.
+// Keep in mind that it skips spaces cause of these does not match snake_case.
+func FromSnakeToScreamingSnakeCase(s string) string {
+	return rejoin(s, "_", "_", func(s string, _ int) string {
+		return strings.ToUpper(s)
+	})
+}

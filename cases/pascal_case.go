@@ -70,3 +70,18 @@ func FromPascalToCamelCase(s string) string {
 
 	return ToLowerFirst(s)
 }
+
+// FromPascalToScreamingSnakeCase converts a PascalCase string to SCREAMING_SNAKE_CASE.
+// Keep in mind that it skips spaces cause of these does not match PascalCase.
+func FromPascalToScreamingSnakeCase(s string) string {
+	return split(
+		s,
+		"_",
+		func(r rune, idx int) bool {
+			return unicode.IsUpper(r) && idx > 0
+		},
+		func(r rune) rune {
+			return unicode.ToUpper(r)
+		},
+	)
+}

@@ -1,7 +1,6 @@
 package cases
 
 import (
-	"regexp"
 	"strings"
 	"unicode"
 )
@@ -22,10 +21,6 @@ const (
 )
 
 type StringCase int8
-
-var (
-	screamingSnakeCaseRE = regexp.MustCompile("^[A-Z]+(_[A-Z]+)*$")
-)
 
 // MatchPascalCase defines if the string matches the PascalCase
 func MatchPascalCase(s string) bool {
