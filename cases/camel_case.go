@@ -51,7 +51,7 @@ func FromCamelToSnakeCase(s string) string {
 		func(r rune, idx int) bool {
 			return unicode.IsUpper(r) && idx > 0
 		},
-		func(r rune) rune {
+		func(r rune, _ int) rune {
 			return unicode.ToLower(r)
 		},
 	)
@@ -66,7 +66,7 @@ func FromCamelToKebabCase(s string) string {
 		func(r rune, idx int) bool {
 			return unicode.IsUpper(r) && idx > 0
 		},
-		func(r rune) rune {
+		func(r rune, _ int) rune {
 			return unicode.ToLower(r)
 		},
 	)
@@ -91,8 +91,23 @@ func FromCamelToScreamingSnakeCase(s string) string {
 		func(r rune, idx int) bool {
 			return unicode.IsUpper(r) && idx > 0
 		},
-		func(r rune) rune {
+		func(r rune, _ int) rune {
 			return unicode.ToUpper(r)
+		},
+	)
+}
+
+// FromCamelToTrainCase converts a camelCase string to Train-Case.
+// Keep in mind that it skips spaces cause of these does not match camelCase.
+func FromCamelToTrainCase(s string) string {
+	return split(
+		s,
+		"-",
+		func(r rune, idx int) bool {
+			return unicode.IsUpper(r) && idx > 0
+		},
+		func(r rune, _ int) rune {
+			return unicode.ToLower(r)
 		},
 	)
 }

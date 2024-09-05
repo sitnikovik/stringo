@@ -318,3 +318,62 @@ func TestFromCamelToScreamingSnakeCase(t *testing.T) {
 		})
 	}
 }
+
+func TestFromCamelToTrainCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "helloWorld",
+			},
+			want: "hello-World",
+		},
+		{
+			args: args{
+				s: "ПриветМир",
+			},
+			want: "Привет-Мир",
+		},
+		{
+			args: args{
+				s: "helloWorld123",
+			},
+			want: "Hello-World123",
+		},
+		{
+			args: args{
+				s: "ПриветМир123",
+			},
+			want: "Привет-Мир123",
+		},
+		{
+			args: args{
+				s: "Аполлон13ВКосмосе",
+			},
+			want: "Аполлон13-В-Космосе",
+		},
+		{
+			args: args{
+				s: "string with spaces is not convertable",
+			},
+			want: "string with spaces is not convertable",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run("FromCamelToTrainCase:"+tt.args.s, func(t *testing.T) {
+			t.Parallel()
+
+			got := FromCamelToTrainCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}

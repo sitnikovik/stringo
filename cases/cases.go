@@ -18,6 +18,8 @@ const (
 	KebabCase
 	// ScreamingSnakeCase describes that string built in SCREAMING_SNAKE_CASE
 	ScreamingSnakeCase
+	// TrainCase describes that string built in Train-Case
+	TrainCase
 )
 
 type StringCase int8
@@ -98,7 +100,7 @@ func rejoin(s, fromSep, toSep string, f func(s string, idx int) string) string {
 
 // split maps provided string with separator on its condition function returns true
 // and do the callback for each rune of string
-func split(s, sep string, sepcond func(r rune, idx int) bool, f func(r rune) rune) string {
+func split(s, sep string, sepcond func(r rune, idx int) bool, f func(r rune, idx int) rune) string {
 	if s == "" {
 		return ""
 	}
@@ -108,7 +110,7 @@ func split(s, sep string, sepcond func(r rune, idx int) bool, f func(r rune) run
 		if sep != "" && sepcond(r, i) {
 			sb.WriteString(sep)
 		}
-		sb.WriteString(string(f(r)))
+		sb.WriteString(string(f(r, i)))
 	}
 
 	return sb.String()

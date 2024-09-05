@@ -39,7 +39,7 @@ func FromPascalToSnakeCase(s string) string {
 		func(r rune, idx int) bool {
 			return unicode.IsUpper(r) && idx > 0
 		},
-		func(r rune) rune {
+		func(r rune, _ int) rune {
 			return unicode.ToLower(r)
 		},
 	)
@@ -54,7 +54,7 @@ func FromPascalToKebabCase(s string) string {
 		func(r rune, idx int) bool {
 			return unicode.IsUpper(r) && idx > 0
 		},
-		func(r rune) rune {
+		func(r rune, _ int) rune {
 			return unicode.ToLower(r)
 		},
 	)
@@ -79,8 +79,20 @@ func FromPascalToScreamingSnakeCase(s string) string {
 		func(r rune, idx int) bool {
 			return unicode.IsUpper(r) && idx > 0
 		},
-		func(r rune) rune {
+		func(r rune, _ int) rune {
 			return unicode.ToUpper(r)
 		},
 	)
+}
+
+// FromPascalToTrainCase converts a PascalCase string to Train-Case.
+// Keep in mind that it skips spaces cause of these does not match PascalCase.
+func FromPascalToTrainCase(s string) string {
+	return rejoin(s, "-", "-", func(s string, idx int) string {
+		if idx == 0 {
+			return strings.ToLower(s)
+		}
+
+		return strings.ToLower(s)
+	})
 }
