@@ -368,3 +368,77 @@ func TestDefineStringCase(t *testing.T) {
 		})
 	}
 }
+
+func Test_join(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		ss  []string
+		sep string
+		f   func(s string, idx int) string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "nil func provided",
+			args: args{
+				ss:  []string{"hello", "world"},
+				sep: " ",
+				f:   nil,
+			},
+			want: "hello world",
+		},
+		{
+			name: "nil func provided and empty separator",
+			args: args{
+				ss:  []string{"hello", "world"},
+				sep: "",
+				f:   nil,
+			},
+			want: "helloworld",
+		},
+		{
+			name: "empty slice provided",
+			args: args{
+				ss:  []string{},
+				sep: " ",
+				f:   nil,
+			},
+			want: "",
+		},
+		{
+			name: "nil slice provided",
+			args: args{
+				ss: nil,
+			},
+			want: "",
+		},
+		{
+			name: "join with separator and func",
+			args: args{
+				ss:  []string{"hello", "world"},
+				sep: " ",
+				f: func(s string, idx int) string {
+					if idx == 0 {
+						return ToUpperFirst(s)
+					}
+					return s
+				},
+			},
+			want: "Hello world",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got := join(tt.args.ss, tt.args.sep, tt.args.f)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
