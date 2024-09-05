@@ -64,6 +64,12 @@ func TestToKebabCase(t *testing.T) {
 			},
 			want: "pascal-case",
 		},
+		{
+			args: args{
+				s: "SCREAMING_SNAKE_CASE",
+			},
+			want: "screaming-snake-case",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt
@@ -230,6 +236,59 @@ func TestFromKebabToSnakeCase(t *testing.T) {
 			t.Parallel()
 
 			got := FromKebabToSnakeCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func TestFromKebabToScreamingSnakeCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "Hello-world",
+			},
+			want: "HELLO_WORLD",
+		},
+		{
+			args: args{
+				s: "Привет-мир-на-дворе-2024-год",
+			},
+			want: "ПРИВЕТ_МИР_НА_ДВОРЕ_2024_ГОД",
+		},
+		{
+			args: args{
+				s: "а,-что-если-будет-1-запятая-и-1точка",
+			},
+			want: "А,_ЧТО_ЕСЛИ_БУДЕТ_1_ЗАПЯТАЯ_И_1ТОЧКА",
+		},
+		{
+			args: args{
+				s: "5-рублей-и-10-копеек",
+			},
+			want: "5_РУБЛЕЙ_И_10_КОПЕЕК",
+		},
+		{
+			args: args{
+				s: "string with spaces to be up",
+			},
+			want: "STRING WITH SPACES TO BE UP",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run("FromKebabToScreamingSnakeCase:"+tt.args.s, func(t *testing.T) {
+			t.Parallel()
+
+			got := FromKebabToScreamingSnakeCase(tt.args.s)
 
 			require.Equal(t, tt.want, got)
 		})
