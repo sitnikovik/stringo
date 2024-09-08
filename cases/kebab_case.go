@@ -21,6 +21,8 @@ func ToKebabCase(s string) string {
 			return FromSnakeToKebabCase(s)
 		case ScreamingSnakeCase:
 			return FromScreamingSnakeToKebabCase(s)
+		case TrainCase:
+			return FromTrainToKebabCase(s)
 		}
 	}
 

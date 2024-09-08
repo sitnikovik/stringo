@@ -22,6 +22,8 @@ func ToCamelCase(s string) string {
 			return FromSnakeToCamelCase(s)
 		case ScreamingSnakeCase:
 			return FromScreamingSnakeToCamelCase(s)
+		case TrainCase:
+			return FromTrainToCamelCase(s)
 		}
 	}
 

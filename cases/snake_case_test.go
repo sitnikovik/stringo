@@ -70,6 +70,12 @@ func TestToSnakeCase(t *testing.T) {
 			},
 			want: "pascal_case",
 		},
+		{
+			args: args{
+				s: "Train-Case",
+			},
+			want: "train_case",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt

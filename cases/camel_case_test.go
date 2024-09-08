@@ -70,6 +70,12 @@ func TestToCamelCase(t *testing.T) {
 			},
 			want: "pascalCase",
 		},
+		{
+			args: args{
+				s: "Train-Case",
+			},
+			want: "trainCase",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt

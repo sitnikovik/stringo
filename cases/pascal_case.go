@@ -24,6 +24,8 @@ func ToPascalCase(s string) string {
 			return FromSnakeToPascalCase(s)
 		case ScreamingSnakeCase:
 			return FromTrainToScreamingSnakeCase(s)
+		case TrainCase:
+			return FromTrainToPascalCase(s)
 		}
 	}
 

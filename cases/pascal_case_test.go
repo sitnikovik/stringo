@@ -70,6 +70,12 @@ func TestToPascalCase(t *testing.T) {
 			},
 			want: "PascalCase",
 		},
+		{
+			args: args{
+				s: "Train-Case",
+			},
+			want: "TrainCase",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt
