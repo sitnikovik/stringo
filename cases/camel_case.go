@@ -106,9 +106,13 @@ func FromCamelToTrainCase(s string) string {
 		return unicode.IsUpper(r)
 	}, true)
 
-	for i, w := range ss {
-		ss[i] = ToUpperFirst(strings.ToLower(w))
+	// Empty strings are not allowed
+	res := make([]string, 0, len(ss))
+	for _, w := range ss {
+		if w != "" {
+			res = append(res, ToUpperFirst(strings.ToLower(w)))
+		}
 	}
 
-	return strings.Join(ss, "-")
+	return strings.Join(res, "-")
 }

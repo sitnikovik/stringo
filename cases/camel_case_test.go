@@ -333,7 +333,7 @@ func TestFromCamelToTrainCase(t *testing.T) {
 			args: args{
 				s: "helloWorld",
 			},
-			want: "hello-World",
+			want: "Hello-World",
 		},
 		{
 			args: args{
@@ -361,9 +361,9 @@ func TestFromCamelToTrainCase(t *testing.T) {
 		},
 		{
 			args: args{
-				s: "string with spaces is not convertable",
+				s: "string with spaces to be up with first",
 			},
-			want: "string with spaces is not convertable",
+			want: "String with spaces to be up with first",
 		},
 	}
 	for _, tt := range tests {
@@ -371,9 +371,9 @@ func TestFromCamelToTrainCase(t *testing.T) {
 		t.Run("FromCamelToTrainCase:"+tt.args.s, func(t *testing.T) {
 			t.Parallel()
 
-			// got := FromCamelToTrainCase(tt.args.s)
+			got := FromCamelToTrainCase(tt.args.s)
 
-			// require.Equal(t, tt.want, got)
+			require.Equal(t, tt.want, got)
 		})
 	}
 }
