@@ -18,7 +18,7 @@ func ToTrainCase(s string) string {
 		case CamelCase:
 			return FromCamelToTrainCase(s)
 		case KebabCase:
-			return FromTrainToKebabCase(s)
+			return FromKebabToTrainCase(s)
 		case SnakeCase:
 			return FromSnakeToTrainCase(s)
 		case ScreamingSnakeCase:
