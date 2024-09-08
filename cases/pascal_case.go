@@ -23,7 +23,7 @@ func ToPascalCase(s string) string {
 		case SnakeCase:
 			return FromSnakeToPascalCase(s)
 		case ScreamingSnakeCase:
-			return FromScreamingSnakeToPascalCase(s)
+			return FromTrainToScreamingSnakeCase(s)
 		}
 	}
 
