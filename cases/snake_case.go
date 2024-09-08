@@ -72,3 +72,11 @@ func FromSnakeToScreamingSnakeCase(s string) string {
 		return strings.ToUpper(s)
 	})
 }
+
+// FromSnakeToTrainCase converts a snake_case string to Train-Case.
+// Keep in mind that it skips spaces cause of these does not match snake_case.
+func FromSnakeToTrainCase(s string) string {
+	return rejoin(s, "_", "-", func(s string, _ int) string {
+		return ToUpperFirst(strings.ToLower(s))
+	})
+}

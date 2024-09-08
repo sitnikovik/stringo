@@ -20,7 +20,7 @@ func ToTrainCase(s string) string {
 		case KebabCase:
 			return FromTrainToKebabCase(s)
 		case SnakeCase:
-			return FromTrainToSnakeCase(s)
+			return FromSnakeToTrainCase(s)
 		case ScreamingSnakeCase:
 			return FromTrainToScreamingSnakeCase(s)
 		}
