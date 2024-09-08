@@ -4,6 +4,8 @@ import (
 	"regexp"
 	"strings"
 	"unicode"
+
+	"github.com/sitnikovik/stringo"
 )
 
 var pascalCaseRE = regexp.MustCompile("^[A-Z][a-z]+(?:[A-Z][a-z]+)*$")
@@ -88,11 +90,13 @@ func FromPascalToScreamingSnakeCase(s string) string {
 // FromPascalToTrainCase converts a PascalCase string to Train-Case.
 // Keep in mind that it skips spaces cause of these does not match PascalCase.
 func FromPascalToTrainCase(s string) string {
-	return rejoin(s, "-", "-", func(s string, idx int) string {
-		if idx == 0 {
-			return strings.ToLower(s)
-		}
+	ss := stringo.SplitFunc(s, func(r rune, idx int) bool {
+		return idx > 0 && unicode.IsUpper(r)
+	}, true)
 
-		return strings.ToLower(s)
-	})
+	for i, w := range ss {
+		ss[i] = ToUpperFirst(strings.ToLower(w))
+	}
+
+	return strings.Join(ss, "-")
 }

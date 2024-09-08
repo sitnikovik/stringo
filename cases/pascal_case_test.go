@@ -259,3 +259,63 @@ func TestFromPascalToCamelCase(t *testing.T) {
 		})
 	}
 }
+
+func TestFromPascalToTrainCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "helloWorld",
+			},
+			want: "Hello-World",
+		},
+		{
+			args: args{
+				s: "ПриветМир",
+			},
+			want: "Привет-Мир",
+		},
+		{
+			args: args{
+				s: "helloWorld123",
+			},
+			want: "Hello-World123",
+		},
+		{
+			args: args{
+				s: "ПриветМир123",
+			},
+			want: "Привет-Мир123",
+		},
+		{
+			args: args{
+				s: "Аполлон13ВКосмосе",
+			},
+			want: "Аполлон13-В-Космосе",
+		},
+		{
+			args: args{
+				s: "string with spaces to be up with first",
+			},
+			want: "String with spaces to be up with first",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got := FromPascalToTrainCase(tt.args.s)
+
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
