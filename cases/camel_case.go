@@ -4,6 +4,8 @@ import (
 	"regexp"
 	"strings"
 	"unicode"
+
+	"github.com/sitnikovik/stringo"
 )
 
 var camelCaseRE = regexp.MustCompile("^[a-z]+(?:[A-Z][a-z]+)*$")
@@ -100,14 +102,13 @@ func FromCamelToScreamingSnakeCase(s string) string {
 // FromCamelToTrainCase converts a camelCase string to Train-Case.
 // Keep in mind that it skips spaces cause of these does not match camelCase.
 func FromCamelToTrainCase(s string) string {
-	return split(
-		s,
-		"-",
-		func(r rune, idx int) bool {
-			return unicode.IsUpper(r) && idx > 0
-		},
-		func(r rune, _ int) rune {
-			return unicode.ToLower(r)
-		},
-	)
+	ss := stringo.SplitFunc(s, func(r rune, idx int) bool {
+		return unicode.IsUpper(r)
+	}, true)
+
+	for i, w := range ss {
+		ss[i] = ToUpperFirst(strings.ToLower(w))
+	}
+
+	return strings.Join(ss, "-")
 }
