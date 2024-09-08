@@ -40,7 +40,7 @@ func MatchTrainCase(s string) bool {
 // Keep in mind that it skips spaces cause of these does not match Train-Case.
 func FromTrainToPascalCase(s string) string {
 	return rejoin(s, "-", "", func(s string, idx int) string {
-		return s
+		return ToUpperFirst(strings.ToLower(s))
 	})
 }
 
