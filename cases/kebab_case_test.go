@@ -76,6 +76,18 @@ func TestToKebabCase(t *testing.T) {
 			},
 			want: "train-case",
 		},
+		{
+			args: args{
+				s: "dot.case",
+			},
+			want: "dot-case",
+		},
+		{
+			args: args{
+				s: "kebab-case",
+			},
+			want: "kebab-case",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt

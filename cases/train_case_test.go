@@ -76,6 +76,12 @@ func TestToTrainCase(t *testing.T) {
 			},
 			want: "Train-Case",
 		},
+		{
+			args: args{
+				s: "dot.case",
+			},
+			want: "Dot-Case",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt

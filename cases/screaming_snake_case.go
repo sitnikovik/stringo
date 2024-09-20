@@ -23,6 +23,8 @@ func ToScreamingSnakeCase(s string) string {
 			return FromSnakeToScreamingSnakeCase(s)
 		case TrainCase:
 			return FromTrainToScreamingSnakeCase(s)
+		case DotCase:
+			return FromDotToScreamingSnakeCase(s)
 		}
 	}
 

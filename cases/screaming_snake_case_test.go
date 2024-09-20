@@ -76,6 +76,24 @@ func TestToScreamingSnakeCase(t *testing.T) {
 			},
 			want: "TRAIN_CASE",
 		},
+		{
+			args: args{
+				s: "SCREAMING_SNAKE_CASE",
+			},
+			want: "SCREAMING_SNAKE_CASE",
+		},
+		{
+			args: args{
+				s: "This is a sentence",
+			},
+			want: "THIS_IS_A_SENTENCE",
+		},
+		{
+			args: args{
+				s: "dot.case",
+			},
+			want: "DOT_CASE",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt
