@@ -79,3 +79,11 @@ func FromTrainToScreamingSnakeCase(s string) string {
 		return strings.ToUpper(s)
 	})
 }
+
+// FromTrainToDotCase converts a Train-Case string to dot.case.
+// Keep in mind that it skips spaces cause of these does not match Train-Case.
+func FromTrainToDotCase(s string) string {
+	return rejoin(s, "-", ".", func(s string, _ int) string {
+		return strings.ToLower(s)
+	})
+}

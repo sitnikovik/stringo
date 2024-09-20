@@ -104,3 +104,18 @@ func FromCamelToScreamingSnakeCase(s string) string {
 func FromCamelToTrainCase(s string) string {
 	return FromPascalToTrainCase(s) // It is the same in this case
 }
+
+// FromCamelToDotCase converts a camelCase string to dot.case.
+// Keep in mind that it skips spaces cause of these does not match camelCase.
+func FromCamelToDotCase(s string) string {
+	return split(
+		s,
+		".",
+		func(r rune, idx int) bool {
+			return unicode.IsUpper(r) && idx > 0
+		},
+		func(r rune, _ int) rune {
+			return unicode.ToLower(r)
+		},
+	)
+}

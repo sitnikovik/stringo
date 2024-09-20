@@ -102,3 +102,18 @@ func FromPascalToTrainCase(s string) string {
 
 	return strings.Join(ss, "-")
 }
+
+// FromPascalToDotCase converts a PascalCase string to dot.case.
+// Keep in mind that it skips spaces cause of these does not match PascalCase.
+func FromPascalToDotCase(s string) string {
+	return split(
+		s,
+		".",
+		func(r rune, idx int) bool {
+			return unicode.IsUpper(r) && idx > 0
+		},
+		func(r rune, _ int) rune {
+			return unicode.ToLower(r)
+		},
+	)
+}

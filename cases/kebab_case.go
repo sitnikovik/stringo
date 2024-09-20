@@ -82,3 +82,11 @@ func FromKebabToTrainCase(s string) string {
 		return ToUpperFirst(s)
 	})
 }
+
+// FromKebabToDotCase converts a kebab-case string to dot.case.
+// Keep in mind that it skips spaces cause of these does not match kebab-case.
+func FromKebabToDotCase(s string) string {
+	return rejoin(s, "-", ".", func(s string, _ int) string {
+		return strings.ToLower(s)
+	})
+}

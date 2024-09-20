@@ -82,3 +82,11 @@ func FromSnakeToTrainCase(s string) string {
 		return ToUpperFirst(strings.ToLower(s))
 	})
 }
+
+// FromSnakeToDotCase converts a snake_case string to dot.case.
+// Keep in mind that it skips spaces cause of these does not match snake_case.
+func FromSnakeToDotCase(s string) string {
+	return rejoin(s, "_", ".", func(s string, _ int) string {
+		return strings.ToLower(s)
+	})
+}

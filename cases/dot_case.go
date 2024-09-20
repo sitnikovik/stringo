@@ -19,17 +19,17 @@ func ToDotCase(s string) string {
 		case DotCase:
 			return s
 		case SnakeCase:
-			panic("implement me")
+			return FromSnakeToDotCase(s)
 		case CamelCase:
-			panic("implement me")
+			return FromCamelToDotCase(s)
 		case KebabCase:
-			panic("implement me")
+			return FromKebabToDotCase(s)
 		case PascalCase:
-			panic("implement me")
+			return FromPascalToDotCase(s)
 		case ScreamingSnakeCase:
-			panic("implement me")
+			return FromScreamingSnakeToDotCase(s)
 		case TrainCase:
-			panic("implement me")
+			return FromTrainToDotCase(s)
 		}
 	}
 
