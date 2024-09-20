@@ -20,6 +20,8 @@ const (
 	ScreamingSnakeCase
 	// TrainCase describes that string built in Train-Case
 	TrainCase
+	// DotCase describes that string built in dot.case
+	DotCase
 )
 
 type StringCase int8
@@ -45,6 +47,12 @@ func DefineStringCase(s string) StringCase {
 	}
 	if MatchScreamingSnakeCase(s) {
 		return ScreamingSnakeCase
+	}
+	if MatchTrainCase(s) {
+		return TrainCase
+	}
+	if MatchDotCase(s) {
+		return DotCase
 	}
 
 	return NormalCase
