@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-var trainCaseRE = regexp.MustCompile("^[A-Z][a-z]+(_[A-Z][a-z]+)*$")
+var trainCaseRE = regexp.MustCompile(`^([A-Z][a-z]+)+(-[A-Z][a-z]+)*$`)
 
 // ToTrainCase converts a string to Train-Case
 func ToTrainCase(s string) string {

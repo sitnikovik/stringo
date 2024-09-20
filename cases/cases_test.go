@@ -356,6 +356,20 @@ func TestDefineStringCase(t *testing.T) {
 			},
 			want: NormalCase,
 		},
+		{
+			name: "define ScreamingSnakeCase",
+			args: args{
+				s: "SCREAMING_SNAKE_CASE",
+			},
+			want: ScreamingSnakeCase,
+		},
+		{
+			name: "define TrainCase",
+			args: args{
+				s: "Train-Case",
+			},
+			want: TrainCase,
+		},
 	}
 	for _, tt := range tests {
 		tt := tt

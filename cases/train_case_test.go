@@ -70,6 +70,12 @@ func TestToTrainCase(t *testing.T) {
 			},
 			want: "Screaming-Snake-Case",
 		},
+		{
+			args: args{
+				s: "Train-Case",
+			},
+			want: "Train-Case",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt
@@ -291,6 +297,57 @@ func TestFromTrainbToScreamingSnakeCase(t *testing.T) {
 			got := FromTrainToScreamingSnakeCase(tt.args.s)
 
 			require.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func TestFromTrainToDotCase(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		args args
+		want string
+	}{
+		{
+			args: args{
+				s: "Hello-World",
+			},
+			want: "hello.world",
+		},
+		{
+			args: args{
+				s: "Привет-Мир-На-Дворе-2024-Год",
+			},
+			want: "привет.мир.на.дворе.2024.год",
+		},
+		{
+			args: args{
+				s: "А,-Что-Если-Будет-1-Запятая-И-1точка",
+			},
+			want: "а,.что.если.будет.1.запятая.и.1точка",
+		},
+		{
+			args: args{
+				s: "5-Рублей-И-10-Копеек",
+			},
+			want: "5.рублей.и.10.копеек",
+		},
+		{
+			args: args{
+				s: "string with spaces is not convertable",
+			},
+			want: "string with spaces is not convertable",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.args.s, func(t *testing.T) {
+			t.Parallel()
+
+			require.Equal(t, tt.want, FromTrainToDotCase(tt.args.s))
 		})
 	}
 }

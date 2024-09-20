@@ -61,6 +61,13 @@ func TestToDotCase(t *testing.T) {
 		want string
 	}{
 		{
+			name: "ok on dot case",
+			args: args{
+				s: "this.is.dot.case",
+			},
+			want: "this.is.dot.case",
+		},
+		{
 			name: "simple sentence",
 			args: args{
 				s: "Hello there. Good to see you.",
