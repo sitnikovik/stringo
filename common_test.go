@@ -78,7 +78,6 @@ func TestSplitFunc(t *testing.T) {
 
 func TestBetween(t *testing.T) {
 	t.Parallel()
-
 	type args struct {
 		s     string
 		left  string
@@ -99,7 +98,7 @@ func TestBetween(t *testing.T) {
 			want: "world",
 		},
 		{
-			name: "left missing",
+			name: "left delimiter missing",
 			args: args{
 				s:     "hello world",
 				left:  "[",
@@ -108,7 +107,7 @@ func TestBetween(t *testing.T) {
 			want: "",
 		},
 		{
-			name: "right missing",
+			name: "right delimiter missing",
 			args: args{
 				s:     "hello [world",
 				left:  "[",
@@ -135,7 +134,7 @@ func TestBetween(t *testing.T) {
 			want: "123",
 		},
 		{
-			name: "nested delimiters (naive scan)",
+			name: "nested delimiters (native scan)",
 			args: args{
 				s:     "a[b[c]d]",
 				left:  "[",
@@ -152,14 +151,17 @@ func TestBetween(t *testing.T) {
 			},
 			want: "",
 		},
+		{
+			name: "default args",
+			args: args{},
+			want: "",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-
 			got := Between(tt.args.s, tt.args.left, tt.args.right)
-
 			require.Equal(t, tt.want, got)
 		})
 	}
