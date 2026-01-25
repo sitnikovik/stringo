@@ -153,7 +153,7 @@ func TestBetween(t *testing.T) {
 		},
 		{
 			name: "default args",
-			args: args{},
+			args: args{}, // s="", left="", right=""
 			want: "",
 		},
 	}
