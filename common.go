@@ -46,6 +46,9 @@ func Between(s, left, right string) string {
 		return ""
 	}
 	contentStart := leftIdx + len(left)
+	if right == "" {
+		return s[contentStart:]
+	}
 	rightIdx := strings.Index(s[contentStart:], right)
 	if rightIdx == -1 {
 		return ""

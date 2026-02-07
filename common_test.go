@@ -160,6 +160,42 @@ func TestBetween(t *testing.T) {
 			},
 			want: "",
 		},
+		{
+			name: "from [ to end",
+			args: args{
+				s:     "hello [world]",
+				left:  "[",
+				right: "",
+			},
+			want: "world]",
+		},
+		{
+			name: "from start to ]",
+			args: args{
+				s:     "hello [world]",
+				left:  "",
+				right: "]",
+			},
+			want: "hello [world",
+		},
+		{
+			name: "empty delimiters return full string",
+			args: args{
+				s:     "some text",
+				left:  "",
+				right: "",
+			},
+			want: "some text",
+		},
+		{
+			name: "same delimiters",
+			args: args{
+				s:     "|content|",
+				left:  "|",
+				right: "|",
+			},
+			want: "content",
+		},
 	}
 	for _, tt := range tests {
 		tt := tt
