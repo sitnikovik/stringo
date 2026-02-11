@@ -75,3 +75,134 @@ func TestSplitFunc(t *testing.T) {
 		})
 	}
 }
+
+func TestBetween(t *testing.T) {
+	t.Parallel()
+	type args struct {
+		s     string
+		left  string
+		right string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "basic case",
+			args: args{
+				s:     "hello [world]!",
+				left:  "[",
+				right: "]",
+			},
+			want: "world",
+		},
+		{
+			name: "left delimiter missing",
+			args: args{
+				s:     "hello world",
+				left:  "[",
+				right: "]",
+			},
+			want: "",
+		},
+		{
+			name: "right delimiter missing",
+			args: args{
+				s:     "hello [world",
+				left:  "[",
+				right: "]",
+			},
+			want: "",
+		},
+		{
+			name: "multiple occurrences - takes first",
+			args: args{
+				s:     "a[1]b[2]",
+				left:  "[",
+				right: "]",
+			},
+			want: "1",
+		},
+		{
+			name: "mixed delimiters",
+			args: args{
+				s:     "idx: 123, val: 456",
+				left:  "idx: ",
+				right: ",",
+			},
+			want: "123",
+		},
+		{
+			name: "nested delimiters (native scan)",
+			args: args{
+				s:     "a[b[c]d]",
+				left:  "[",
+				right: "]",
+			},
+			want: "b[c",
+		},
+		{
+			name: "empty result",
+			args: args{
+				s:     "[]",
+				left:  "[",
+				right: "]",
+			},
+			want: "",
+		},
+		{
+			name: "default args",
+			args: args{
+				s:     "",
+				left:  "",
+				right: "",
+			},
+			want: "",
+		},
+		{
+			name: "from [ to end",
+			args: args{
+				s:     "hello [world]",
+				left:  "[",
+				right: "",
+			},
+			want: "world]",
+		},
+		{
+			name: "from start to ]",
+			args: args{
+				s:     "hello [world]",
+				left:  "",
+				right: "]",
+			},
+			want: "hello [world",
+		},
+		{
+			name: "empty delimiters return full string",
+			args: args{
+				s:     "some text",
+				left:  "",
+				right: "",
+			},
+			want: "some text",
+		},
+		{
+			name: "same delimiters",
+			args: args{
+				s:     "|content|",
+				left:  "|",
+				right: "|",
+			},
+			want: "content",
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			got := Between(tt.args.s, tt.args.left, tt.args.right)
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
